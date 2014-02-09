@@ -1,6 +1,10 @@
 package Wisdom;
 use Mojo::Base 'Mojolicious';
 
+has styles => sub { [] };
+
+has scripts => sub { [] };
+
 sub startup {
 	my $self = shift;
 
@@ -10,6 +14,17 @@ sub startup {
 	push @{$self->commands->namespaces}, 'Wisdom::Command';
 
 	$self->_init_routes;
+
+	# We initialize AssetPack as late as possible.
+	$self->plugin('AssetPack');
+
+	$self->asset('wisdom.css' => (
+		@{$self->styles}
+	));
+
+	$self->asset('wisdom.js' => (
+		@{$self->scripts}
+	));
 }
 
 sub _init_routes {

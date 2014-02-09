@@ -22,6 +22,7 @@ sub startup {
 		'/css/jquery-ui-1.10.3.css',
 		'/css/bootstrap.css',
 		'/css/bootstrap-theme.css',
+		'/css/font-awesome.css',
 
 		@{$self->styles}
 	));

@@ -20,6 +20,8 @@ sub startup {
 
 	$self->asset('wisdom.css' => (
 		'/css/jquery-ui-1.10.3.css',
+		'/css/bootstrap.css',
+		'/css/bootstrap-theme.css',
 
 		@{$self->styles}
 	));
@@ -27,6 +29,7 @@ sub startup {
 	$self->asset('wisdom.js' => (
 		'/js/jquery-1.11.0.js',
 		'/js/jquery-ui-1.10.3.js',
+		'/js/bootstrap.js',
 
 		@{$self->scripts}
 	));

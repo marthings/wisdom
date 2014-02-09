@@ -4,6 +4,9 @@ use Mojo::Base 'Mojolicious';
 sub startup {
 	my $self = shift;
 
+	my $config = $self->plugin('Config');
+	$config->{name} ||= 'Wisdom';
+
 	push @{$self->commands->namespaces}, 'Wisdom::Command';
 
 	$self->_init_routes;

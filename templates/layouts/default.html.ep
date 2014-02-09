@@ -1,0 +1,28 @@
+% extends 'base/skeleton';
+
+% content body => begin
+<div class="default-layout">
+	%= include 'components/header'
+	
+	<div class="container-fluid">
+		% if (my $msg = flash('success')) {
+		<div class="alert alert-success alert-dismissable">
+			<button type="button" class="close" data-dismiss="alert"
+							aria-hidden="true">&times;</button>
+			<%= $msg %>
+		</div>
+		% }
+		% if (my $msg = flash('error')) {
+		<div class="alert alert-danger alert-dismissable">
+			<button type="button" class="close" data-dismiss="alert"
+							aria-hidden="true">&times;</button>
+			<%= $msg %>
+		</div>
+		% }
+
+		%= content 'main'
+	
+		%= include 'components/footer'
+	</div>
+</div>
+% end

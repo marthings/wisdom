@@ -1,0 +1,19 @@
+<div class="navbar navbar-default navbar-static-top">
+	<div class="container-fluid">
+		<a href="#content" class="skip-to-content">Skip to content</a>
+		<a href="#footer" class="skip-to-content">Skip to footer</a>
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle"
+			        data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			%= link_to 'Wisdom', 'index', class => 'navbar-brand wisdom-font'
+		</div>
+		<div class="navbar-collapse collapse">
+			%= render_menu 'main'
+		</div>
+	</div>
+</div>

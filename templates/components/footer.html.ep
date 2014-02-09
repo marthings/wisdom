@@ -1,0 +1,10 @@
+<footer class="footer">
+	<div class="pull-right">
+		<p>
+			<a href="http://peredin.com/acquire-wisdom">Acquire <span class="wisdom-font">Wisdom<span></a>
+		</p>
+	</div>
+	<div class="copyright">
+		<p>Powered by <strong class="wisdom-font">Wisdom</strong></p>
+	</div>
+</footer>

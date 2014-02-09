@@ -1,1 +1,5 @@
-Wisdom.
+% extends 'layouts/default';
+
+% content main => begin
+  <p>Wisdom.</p>
+% end

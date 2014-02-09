@@ -11,6 +11,8 @@ sub startup {
 	my $config = $self->plugin('Config');
 	$config->{name} ||= 'Wisdom';
 
+	$self->_init_menus;
+
 	push @{$self->commands->namespaces}, 'Wisdom::Command';
 
 	$self->_init_routes;
@@ -24,6 +26,8 @@ sub startup {
 		'/css/bootstrap-theme.css',
 		'/css/font-awesome.css',
 
+		'/css/wisdom.scss',
+
 		@{$self->styles}
 	));
 
@@ -34,6 +38,21 @@ sub startup {
 
 		@{$self->scripts}
 	));
+}
+
+sub _init_menus {
+	my $self = shift;
+
+	$self->plugin('Wisdom::Plugin::Menus');
+
+	my $main = {
+		template => 'components/menus/main',
+		items => [ ],
+	};
+
+	$self->menu->create(
+		main => $main,
+	);
 }
 
 sub _init_routes {

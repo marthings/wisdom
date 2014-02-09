@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title><%= config 'name' %> - <%= title %></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		%= asset 'wisdom.css'
+	</head>
+	<body class="no-js">
+		%= javascript begin
+		document.body.className
+			= document.body.className.replace('no-js', 'js')
+		%= end
+
+		%= content 'body'
+
+		%# scripts at the bottom for improved loading times.
+		%= asset 'wisdom.js'
+	</body>
+</html>

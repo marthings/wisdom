@@ -1,0 +1,7 @@
+<ul class="nav navbar-nav">
+	% for my $i (@$items) {
+	<li class="<%= join ' ', @{$i->{class}} %>">
+		<a href="<%= $i->{link} %>"><%== $i->{text} %></a>
+	</li>
+	% }
+</ul>

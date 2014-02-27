@@ -1,0 +1,29 @@
+#!/bin/bash
+
+MORBO=`which morbo 2> /dev/null`
+
+if [[ ! -x $MORBO ]]; then
+	echo Could not find morbo executable.
+	exit 1
+fi
+
+WISDOM=''
+
+# Locate the wisdom script
+if [[ -x "./wisdom" ]]; then
+	WISDOM='./wisdom'
+elif [[ -x "./script/wisdom" ]]; then
+	WISDOM='./script/wisdom'
+fi
+
+if [[ -z $WISDOM ]]; then
+	echo Could not find wisdom script.
+	exit 1
+fi
+
+echo Starting Morbo development server
+morbo -w lib \
+      -w templates \
+      -w public/css \
+      -w public/js \
+      $WISDOM

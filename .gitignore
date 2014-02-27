@@ -1,2 +1,4 @@
 wisdom.conf
 public/packed
+.carton
+local/

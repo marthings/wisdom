@@ -1,0 +1,10 @@
+requires 'perl', '5.18.2';
+requires 'Modern::Perl', '1.20140107';
+requires 'Text::Markdown', '1.000031';
+requires 'DBD::Pg', '2.19.3';
+requires 'DBD::SQLite', '1.40';
+requires 'DBIx::Class', '0.08250';
+requires 'DBIx::Class::Schema::Loader', '0.07037';
+requires 'SQL::Translator', '0.11018';
+requires 'Mojolicious', '4.63';
+requires 'Mojolicious::Plugin::AssetPack', '0.0601';

@@ -44,6 +44,9 @@ sub startup {
 	my $config = $self->plugin('Config');
 	$config->{name} ||= 'Wisdom';
 
+	$self->secrets($config->{secrets}
+		|| die qq{'secrets' is required in config file\n});
+
 	$self->_init_menus;
 
 	push @{$self->commands->namespaces}, 'Wisdom::Command';

@@ -1,5 +1,39 @@
 % extends 'layouts/default';
 
 % content main => begin
-  <p>Wisdom.</p>
+  <div class="page-header">
+    <h1>
+			Wisdom Knowledge Base
+    </h1>
+  </div>
+  <p>
+    This page contains a selection of common issues and issue categories.
+    You can always
+    %= link_to 'browse', 'browse'
+    or
+    %= link_to 'search', 'search'
+    the knowledge base to find more articles.
+	<div class="row">
+		<div class="col-sm-6">
+			<h2>Categories</h2>
+      % if (stash('categories')) {
+        %= include 'components/category-list'
+      % } else {
+      <p>
+  				No starred categories available.
+      </p>
+      % }
+		</div>
+
+		<div class="col-sm-6">
+			<h2>Articles</h2>
+      % if (stash('articles')) {
+        %= include 'components/article-list'
+      % } else {
+      <p>
+  				No starred articles available.
+      </p>
+      % }
+		</div>
+	</div>
 % end

@@ -1,0 +1,125 @@
+%# edit.html.ep
+%#
+%# Displays an edit form for editing or creating an article.
+%#
+% title $creating ? 'Create article' : 'Edit article';
+% extends 'layouts/default';
+
+% content main => begin
+
+<div class="page-header">
+	% if ($creating) {
+		<h1>Create article</h1>
+	% } else {
+		<h1>Edit article</h1>
+	% }
+</div>
+
+%= form_for url_for ($creating ? 'article.create' : 'article.edit', { slug => stash('slug')})->to_abs, method => 'post', begin
+	<div class="row">
+		<div class="col-md-8">
+			<div class="form-group">
+				%= label_for 'article_title', 'Title'
+				%= text_field 'article_title', $article_title, class => 'form-control input-lg'
+				% if (my $err = validation->error('article_title')) {
+					<p class="help-block form-error">
+					% if ($err->[0] eq 'required') {
+						A title is required.
+					% } elsif ($err->[0] eq 'size') {
+						The title must be 1-128 characters long.
+					% } else {
+						Invalid title.
+					% }
+					</p>
+				% }
+			</div>
+			<div class="form-group">
+				%= label_for 'article_text', 'Text'
+				%= text_area 'article_text', $article_text, class => 'form-control', rows => 10
+				<p class="help-block">
+					Wisdom Articles are
+					<a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a>-capable.
+				</p>
+			</div>
+		</div>
+
+		<div class="col-md-4">
+			<div class="form-group">
+				%= label_for 'article_slug', 'Slug'
+				%= text_field 'article_slug', $article_slug, class => 'form-control'
+				% if (my $err = validation->error('article_slug')) {
+					<p class="help-block form-error">
+					% if ($err->[0] eq 'required') {
+						A slug is required.
+					% } elsif ($err->[0] eq 'size') {
+						The slug must be 1-128 characters long.
+					% } elsif ($err->[0] eq 'like') {
+						The slug must consist of a-z, 0-9, and dash (-) only.
+					% } elsif ($err->[0] eq 'unique') {
+						The slug must be unique.
+					% } else {
+						Invalid slug.
+					% }
+					</p>
+				% }
+			</div>
+
+			<div class="form-group">
+				%# ugly hack, can't set select_field default value.
+				% param('article_category' => $article_category) unless param('article_category');
+				%= label_for 'article_category', 'Category'
+				%= select_field 'article_category', $categories, class => 'form-control input-sm'
+				% if (my $err = validation->error('article_category')) {
+					<p class="help-block form-error">
+						You have not selected a category.
+					</p>
+				% }
+				% unless (@$categories) {
+					<p class="help-block">
+						There are no categories available. You must create at least
+						one category before you can create articles.
+					</p>
+				% }
+			</div>
+
+			<div class="form-group">
+				<label>
+					% param('article_starred', $article_starred);
+					%= check_box 'article_starred', '1'
+					Make this article starred
+				</label>
+				<p class="help-block">
+					Starred articles will show up on the front page.
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="row"> <div class="col-md-8">
+		<div class="submit-row">
+			<div class="row">
+				<div class="col-xs-6">
+					% unless ($creating) {
+						<button class="btn btn-danger" type="submit"
+						        name="delete-article" value="1">
+							<i class="fa fa-trash-o"></i>
+							Delete
+						</button>
+					% }
+				</div>
+
+				<div class="col-xs-6 text-right">
+					% unless ($creating) {
+						<a class="btn btn-default" href="<%= url_for('article.show', { slug => $article_slug }) %>">Cancel</a>
+					% }
+					<button class="btn btn-primary" type="submit">
+						<i class="fa fa-floppy-o"></i>
+						%= $creating ? 'Create' : 'Save'
+					</button>
+				</div>
+			</div> <!-- .row -->
+		</div> <!-- .submit-row -->
+	</div> </div> <!-- .row .col-md-8 -->
+% end
+
+% end

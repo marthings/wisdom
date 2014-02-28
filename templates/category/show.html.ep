@@ -1,0 +1,39 @@
+%# show.html.ep
+%#
+%# Displays a category and a list of articles assigned to it.
+%#
+% title $category_title;
+% extends 'layouts/default';
+
+% content main => begin
+<div class="page-header">
+  %= link_to 'Edit', 'category.edit', { slug => $category_slug }, class => 'btn btn-default pull-right'
+  <h1>
+    <%= $category_title %>
+  </h1>
+</div>
+
+<div class="row">
+  <div class="col-md-8">
+    % if (my $articles = stash('articles')) {
+    <ul class="category-list">
+      % for my $a (@$articles) {
+        % my $a_link = url_for('article.show', { slug => $a->{slug} });
+      <li>
+        <a href="<%= $a_link %>"><%= $a->{title} %></a> 
+      </li>
+      % }
+    </ul>
+    % } else {
+    <p>
+      There are no articles in this category.
+      Perhaps you want to
+      <%= link_to 'create one', 'article.create' %>?
+    </p>
+    % }
+  </div>
+  <div class="col-md-4">
+    &nbsp;
+  </div>
+</div>
+% end

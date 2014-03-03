@@ -14,6 +14,16 @@
 		</div>
 		<div class="navbar-collapse collapse">
 			%= render_menu 'main'
+			%= form_for 'search', method => 'get', class => 'navbar-form navbar-right', begin
+				%= label_for 'query', 'Query', class => 'sr-only'
+				<div class="form-group">
+					%= text_field 'query', '', placeholder => 'Search', class => 'form-control'
+				</div>
+				<button class="btn btn-default" type="submit">
+					<i class="fa fa-search"></i>
+					Go!
+				</button>
+			% end
 		</div>
 	</div>
 </div>

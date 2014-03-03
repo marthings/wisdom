@@ -1,0 +1,29 @@
+%# list.html.ep
+%#
+%# Displays a list of categories.
+%#
+% title 'Categories';
+% extends 'layouts/default';
+
+% content main => begin
+<div class="page-header">
+	<h1>Categories</h1>
+</div>
+
+<div class="row">
+	<div class="col-md-8">
+		% if (my $categories = stash('categories')) {
+			%= include 'components/category-list'
+		% } else {
+		<p>
+			There are no categories.
+			Perhaps you want to
+			<%= link_to 'create one', 'category.create' %>?
+		</p>
+		% }
+	</div>
+	<div class="col-md-4">
+		&nbsp;
+	</div>
+</div>
+% end

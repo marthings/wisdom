@@ -86,7 +86,23 @@ sub _init_menus {
 
 	my $main = {
 		template => 'components/menus/main',
-		items => [ ],
+		items => [
+			{
+				link  => 'category.list',
+				text  => 'Browse',
+				order => 10,
+			},
+			{
+				link  => 'category.create',
+				text  => 'New Category',
+				order => 20,
+			},
+			{
+				link  => 'article.create',
+				text  => 'New Article',
+				order => 21,
+			},
+		],
 	};
 
 	$self->menu->create(
@@ -99,8 +115,23 @@ sub _init_routes {
 	my $r = $self->routes;
 
 	$r->namespaces(['Wisdom::Controller']);
+	$r->add_shortcut(form => sub { shift->any([qw(GET POST)], @_) });
 
 	$r->get('/')->to('root#index')->name('index');
+
+	$r->get('/browse')->to('category#list')->name('category.list');
+	$r->form('/browse/create-category')->to('category#edit')->name('category.create');
+	$r->form('/articles/new')->to('article#edit')->name('article.create');
+
+	$r->get('/search')->to('search#perform_query')->name('search');
+
+	my $categories_r = $r->under('/browse/:slug')->to('category#lookup');
+	$categories_r->get('/')->to('category#show')->name('category.show');
+	$categories_r->form('/edit')->to('category#edit')->name('category.edit');
+
+	my $articles_r = $r->under('/articles/:slug')->to('article#lookup');
+	$articles_r->get('/')->to('article#show')->name('article.show');
+	$articles_r->form('/edit')->to('article#edit')->name('article.edit');
 }
 
 1;

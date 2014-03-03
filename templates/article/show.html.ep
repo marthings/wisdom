@@ -1,0 +1,26 @@
+%# show.html.ep
+%#
+%# Displays an article.
+%#
+% title $article_title;
+% extends 'layouts/default';
+% use Mojo::ByteStream 'b';
+
+% content main => begin
+<div class="page-header">
+	%= link_to 'Edit', 'article.edit', { slug => $article_slug }, class => 'btn btn-default pull-right'
+	<h1>
+		<%= $article_title // b('&nbsp;') %>
+	</h1>
+	<div class="article-categories">
+		This article is categorized in:
+		%= link_to $category_title, 'category.show', { slug => $category_slug }
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-8">
+		%== $article_text_html
+	</div>
+</div>
+% end

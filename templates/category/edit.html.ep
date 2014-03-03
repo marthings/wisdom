@@ -1,0 +1,98 @@
+%# edit.html.ep
+%#
+%# Displays an edit form for editing or creating a category.
+%#
+% title $creating ? 'Create category' : 'Edit category';
+% extends 'layouts/default';
+
+% content main => begin
+
+<div class="page-header">
+	% if ($creating) {
+		<h1>Create category</h1>
+	% } else {
+		<h1>Edit category</h1>
+	% }
+</div>
+
+%= form_for url_for ($creating ? 'category.create' : 'category.edit', { slug => stash('slug')})->to_abs, method => 'post', begin
+	<div class="row">
+		<div class="col-md-8">
+			<div class="form-group">
+				%= label_for 'category_title', 'Title'
+				%= text_field 'category_title', $category_title, class => 'form-control input-lg'
+				% if (my $err = validation->error('category_title')) {
+					<p class="help-block form-error">
+					% if ($err->[0] eq 'required') {
+						A title is required.
+					% } elsif ($err->[0] eq 'size') {
+						The title must be 1-128 characters long.
+					% } else {
+						Invalid title.
+					% }
+					</p>
+				% }
+			</div>
+			<div class="form-group">
+				%= label_for 'category_slug', 'Slug'
+				%= text_field 'category_slug', $category_slug, class => 'form-control'
+				% if (my $err = validation->error('category_slug')) {
+					<p class="help-block form-error">
+					% if ($err->[0] eq 'required') {
+						A slug is required.
+					% } elsif ($err->[0] eq 'size') {
+						The slug must be 1-128 characters long.
+					% } elsif ($err->[0] eq 'like') {
+						The slug must consist of a-z, 0-9, and dash (-) only.
+					% } elsif ($err->[0] eq 'unique') {
+						The slug must be unique.
+					% } else {
+						Invalid slug.
+					% }
+					</p>
+				% }
+			</div>
+		</div>
+
+		<div class="col-md-4">
+			<div class="form-group">
+				<label>
+					% param('category_starred', $category_starred);
+					%= check_box 'category_starred', '1'
+					Make this category starred
+				</label>
+				<p class="help-block">
+					Starred categories will show up on the front page.
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="row"> <div class="col-md-8">
+		<div class="submit-row">
+			<div class="row">
+				<div class="col-xs-6">
+					% unless ($creating) {
+						<button class="btn btn-danger" type="submit"
+						        name="delete-category" value="1">
+							<i class="fa fa-trash-o"></i>
+							Delete
+						</button>
+					% }
+				</div>
+
+				<div class="col-xs-6 text-right">
+					% unless ($creating) {
+						<a class="btn btn-default" href="<%= url_for('category.show', { slug => $category_slug }) %>">Cancel</a>
+					% }
+					<button class="btn btn-primary" type="submit">
+						<i class="fa fa-floppy-o"></i>
+						%= $creating ? 'Create' : 'Save'
+					</button>
+				</div>
+			</div> <!-- .row -->
+		</div> <!-- .submit-row -->
+	</div> </div> <!-- .row .col-md-8 -->
+% end
+
+% end

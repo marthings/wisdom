@@ -1,0 +1,8 @@
+<ul class="category-list">
+	% for my $c (@$categories) {
+		% my $url = url_for('category.show', { slug => $c->{slug} });
+	<li>
+		<a href="<%= $url %>"><%= $c->{title} %></a> 
+	</li>
+	% }
+</ul>

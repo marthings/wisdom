@@ -1,0 +1,8 @@
+<ul class="article-list">
+	% for my $a (@$articles) {
+		% my $url = url_for('article.show', { slug => $a->{slug} });
+	<li>
+		<a href="<%= $url %>"><%= $a->{title} %></a> 
+	</li>
+	% }
+</ul>

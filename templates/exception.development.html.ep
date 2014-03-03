@@ -1,0 +1,96 @@
+% extends 'layouts/default';
+
+% my $cv = begin
+  % my ($key, $value, $i) = @_;
+  %= tag 'tr', $i ? (class => 'important') : undef, begin
+    <td><%= $key %></td>
+    <td><tt><%= $value %></tt></td>
+  % end
+% end
+% my $kv = begin
+  % my ($key, $value) = @_;
+  <tr>
+    <td><%= $key %>:</td>
+    <td><tt><%= $value %></tt></td>
+  </tr>
+% end
+
+% content main => begin
+  <div class="page-header">
+    <h1>500: A system error occurred</h1>
+  </div>
+    <pre><%= $exception->message %></pre>
+  <h2>Source code</h2>
+  <table class="table table-condensed">
+    <tbody>
+      % for my $line (@{$exception->lines_before}) {
+        %= $cv->($line->[0], $line->[1])
+      % }
+      % if (defined $exception->line->[1]) {
+        %= $cv->($exception->line->[0], $exception->line->[1], 1)
+      % }
+      % for my $line (@{$exception->lines_after}) {
+        %= $cv->($line->[0], $line->[1])
+      % }
+    </tbody>
+  </table>
+  % if (defined $exception->line->[2]) {
+    <h3>Alternative source</h3>
+    <table class="table table-condensed">
+      <tbody>
+         % for my $line (@{$exception->lines_before}) {
+           %= $cv->($line->[0], $line->[2])
+         % }
+         %= $cv->($exception->line->[0], $exception->line->[2], 1)
+         % for my $line (@{$exception->lines_after}) {
+           %= $cv->($line->[0], $line->[2])
+         % }
+      </tbody>
+    </table>
+  % }
+  % if (@{$exception->frames}) {
+    <h2>Stack trace</h2>
+    <table class="table table-condensed table-striped">
+      <tbody>
+        % for my $frame (@{$exception->frames}) {
+          <tr>
+            <td><tt><%= $frame->[1] . ':' . $frame->[2] %></tt></td>
+          </tr>
+        % }
+      </tbody>
+    </table>
+  % }
+  <h2>HTTP Request</h2>
+  <table class="table table-condensed table-striped">
+    <tbody>
+    % my $req = $self->req;
+    %= $kv->(Method => $req->method)
+    % my $url = $req->url;
+    %= $kv->(URL => $url->to_string)
+    %= $kv->('Base URL' => $url->base->to_string)
+    %= $kv->(Parameters => dumper $req->params->to_hash)
+    %= $kv->(Stash => dumper $snapshot)
+    %= $kv->(Session => dumper session)
+    %= $kv->(Version => $req->version)
+    % for my $name (sort @{$self->req->headers->names}) {
+      % my $value = $self->req->headers->header($name);
+      %= $kv->($name, $value)
+    % }
+    </tbody>
+  </table>
+  <h2>Details</h2>
+  <table class="table table-condensed table-striped">
+    <tbody>
+      %= $kv->(Perl => "$^V ($^O)")
+      % my $version  = $Mojolicious::VERSION;
+      % my $codename = $Mojolicious::CODENAME;
+      %= $kv->(Mojolicious => "$version ($codename)")
+      %= $kv->(Home => app->home)
+      %= $kv->(Include => dumper \@INC)
+      %= $kv->(PID => $$)
+      %= $kv->(Name => $0)
+      %= $kv->(Executable => $^X)
+      %= $kv->(Time => scalar localtime(time))
+    </tbody>
+  </table>
+% end

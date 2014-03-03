@@ -86,7 +86,23 @@ sub _init_menus {
 
 	my $main = {
 		template => 'components/menus/main',
-		items => [ ],
+		items => [
+			{
+				link  => 'category.list',
+				text  => 'Browse',
+				order => 10,
+			},
+			{
+				link  => 'category.create',
+				text  => 'New Category',
+				order => 20,
+			},
+			{
+				link  => 'article.create',
+				text  => 'New Article',
+				order => 21,
+			},
+		],
 	};
 
 	$self->menu->create(

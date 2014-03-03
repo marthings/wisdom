@@ -1,0 +1,49 @@
+% extends 'layouts/default';
+
+% my $walk = begin
+  % my ($walk, $route, $depth) = @_;
+  <tr>
+    <td>
+      % my $pattern = $route->pattern->pattern || '/';
+      % $pattern = "+$pattern" if $depth;
+      <tt><%== '&nbsp;&nbsp;' x $depth %><%= $pattern %></tt>
+    </td>
+    <td>
+      <tt><%= uc(join ',', @{$route->via || []}) || '*' %></tt>
+    </td>
+    <td>
+      % my $name = $route->name;
+      <tt><%= $route->has_custom_name ? qq{"$name"} : $name %></tt>
+    </td>
+  </tr>
+  % $depth++;
+  %= $walk->($walk, $_, $depth) for @{$route->children};
+  % $depth--;
+% end
+
+% content main => begin
+  <div class="page-header">
+    <h1>404: The page could not be found</h1>
+  </div>
+  <p>The requested page could not be found.</p>
+  <h2>Routes</h2>
+  <p>
+    None of these routes matched your
+    <code><%= $self->req->method %></code> request for
+    <code><%= $self->req->url->path %></code>.
+  </p>
+  <div class="panel panel-default">
+    <table class="table table-condensed table-striped">
+      <thead>
+        <tr>
+          <th>Pattern</th>
+          <th>Methods</th>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        %= $walk->($walk, $_, 0) for @{app->routes->children};
+      </tbody>
+    </table>
+  </div>
+% end

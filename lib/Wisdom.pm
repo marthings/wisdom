@@ -1,12 +1,47 @@
 package Wisdom;
+
+=head1 NAME
+
+Wisdom - Simple knowledge base system
+
+=head1 VERSION
+
+0
+
+=head1 DESCRIPTION
+
+Wisdom is a very simple knowledge base system.
+
+=cut
+
 use Mojo::Base 'Mojolicious';
 use Wisdom::Schema;
 
 our $VERSION = '0';
 
+=head1 ATTRIBUTES
+
+=head2 styles
+
+This attribute holds an array of extra stylesheets passed to AssetPack.
+
+=cut
+
 has styles => sub { [] };
 
+=head2 scripts
+
+This attribute holds an array of extra scripts passed to AssetPack.
+
+=cut
+
 has scripts => sub { [] };
+
+=head2 db_config
+
+This attribute holds the database configuration.
+
+=cut
 
 has db_config => sub {
 	my $self = shift;
@@ -27,6 +62,12 @@ has db_config => sub {
 	$config;
 };
 
+=head2 db
+
+This attribute holds the database connection.
+
+=cut
+
 has db => sub {
 	my $self = shift;
 	my $config = $self->db_config;
@@ -39,6 +80,14 @@ has db => sub {
 		$config->{extras},
 	);
 };
+
+=head1 METHODS
+
+=head2 startup
+
+This method will run once at server start.
+
+=cut
 
 sub startup {
 	my $self = shift;
@@ -81,6 +130,12 @@ sub startup {
 	));
 }
 
+=head2 _init_menus
+
+This method will initialize the menus.
+
+=cut
+
 sub _init_menus {
 	my $self = shift;
 
@@ -112,6 +167,12 @@ sub _init_menus {
 	);
 }
 
+=head2 _init_routes
+
+This method will initialize the routes.
+
+=cut
+
 sub _init_routes {
 	my $self = shift;
 	my $r = $self->routes;
@@ -135,5 +196,37 @@ sub _init_routes {
 	$articles_r->get('/')->to('article#show')->name('article.show');
 	$articles_r->form('/edit')->to('article#edit')->name('article.edit');
 }
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2014 Per Edin.
+
+Permission to use, copy, modify, distribute, and sell this software and
+its documentation for any purpose is hereby granted without fee,
+provided that the above copyright notice appear in all copies and that
+both that copyright notice and this permission notice appear in
+supporting documentation.
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGMENT, IN
+NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+OTHER DEALINGS IN THE SOFTWARE.
+
+Except as contained in this notice, the name(s) of the above copyright
+holders shall not be used in advertising or otherwise to promote the
+sale, use or other dealings in this Software without prior written
+authorization from the copyright holders.
+
+=head1 AUTHOR
+
+Per Edin - C<info@peredin.com>
+
+=cut
 
 1;

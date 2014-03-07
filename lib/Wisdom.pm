@@ -2,6 +2,8 @@ package Wisdom;
 use Mojo::Base 'Mojolicious';
 use Wisdom::Schema;
 
+our $VERSION = '0';
+
 has styles => sub { [] };
 
 has scripts => sub { [] };

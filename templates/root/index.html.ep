@@ -1,3 +1,4 @@
+% title 'Knowledge Base';
 % extends 'layouts/default';
 
 % content main => begin
